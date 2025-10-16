@@ -20,3 +20,29 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         # Always return the logged-in user's object
         return self.request.user
+
+# user/views.py
+from rest_framework import generics
+from rest_framework.response import Response
+from .serializers import RecoveryQuestionSerializer, PasswordResetSerializer
+
+# Get recovery question + token
+class RecoveryQuestionView(generics.CreateAPIView):
+    serializer_class = RecoveryQuestionSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        result = serializer.save()
+        return Response(result)
+
+
+# Reset password
+class PasswordResetView(generics.CreateAPIView):
+    serializer_class = PasswordResetSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({"detail": "Password reset successfully."})
