@@ -171,7 +171,7 @@ python manage.py test user
 python manage.py test recipes
 ```
 
-## Docker (Optional)  
+## Docker 
 Build and run the Docker container:
 
 ```bash
