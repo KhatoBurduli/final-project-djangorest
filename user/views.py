@@ -1,6 +1,9 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from .models import CustomUser
-from .serializers import UserRegisterSerializer, EmailVerificationSerializer
+from .serializers import UserRegisterSerializer, EmailVerificationSerializer, RecoveryQuestionSerializer, PasswordResetSerializer, LogoutSerializer
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+
 
 # Register (anyone can create)
 class RegisterUserView(generics.CreateAPIView):
@@ -23,10 +26,6 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         # Always return the logged-in user's object
         return self.request.user
 
-# user/views.py
-from rest_framework import generics
-from rest_framework.response import Response
-from .serializers import RecoveryQuestionSerializer, PasswordResetSerializer
 
 # Get recovery question + token
 class RecoveryQuestionView(generics.CreateAPIView):
@@ -58,3 +57,15 @@ class EmailVerifyView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"detail": "Email verified successfully. You can now login."})
+
+
+class LogoutView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"detail": "Successfully logged out."}, status=status.HTTP_204_NO_CONTENT)
+

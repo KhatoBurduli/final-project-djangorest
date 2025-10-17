@@ -78,3 +78,17 @@ class RecipesViewTests(APITestCase):
         url = reverse("recipe-detail", args=[self.recipe2.id])
         response = self.client.patch(url, {"title": "HackedSalad"}, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    # -------- Recipes by Category Tests --------
+    def test_recipes_by_category_view_returns_filtered_recipes(self):
+        url = reverse("recipes-by-category", args=[self.category1.id])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["title"], "Cake")
+
+    def test_recipes_by_category_requires_authentication(self):
+        self.client.logout()
+        url = reverse("recipes-by-category", args=[self.category1.id])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

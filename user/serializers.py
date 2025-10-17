@@ -1,11 +1,13 @@
 from django.conf import settings
-from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-
-from .models import CustomUser, EmailVerificationToken
+from .models import CustomUser, EmailVerificationToken, PasswordRecoveryToken
 from django.utils import timezone
 from datetime import timedelta
 from django.core.mail import send_mail
+from rest_framework import serializers
+import uuid
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -50,14 +52,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-
-# user/serializers.py
-from rest_framework import serializers
-from .models import CustomUser, PasswordRecoveryToken
-from django.utils import timezone
-from datetime import timedelta
-import uuid
-
 class RecoveryQuestionSerializer(serializers.Serializer):
     username = serializers.CharField()
 
@@ -101,7 +95,7 @@ class PasswordResetSerializer(serializers.Serializer):
         if token_obj.is_expired():
             raise serializers.ValidationError({"token": "Token has expired."})
 
-        # ✅ Use check_recovery_answer instead of accessing non-existent field
+        # Use check_recovery_answer instead of accessing non-existent field
         if not token_obj.user.check_recovery_answer(attrs['recovery_answer']):
             raise serializers.ValidationError({"recovery_answer": "Incorrect recovery answer."})
 
@@ -118,7 +112,6 @@ class PasswordResetSerializer(serializers.Serializer):
         return user
 
 
-# user/serializers.py
 class EmailVerificationSerializer(serializers.Serializer):
     token = serializers.UUIDField()
 
@@ -141,3 +134,18 @@ class EmailVerificationSerializer(serializers.Serializer):
         user.save()
         token_obj.delete()
         return user
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            token = RefreshToken(self.token)
+            token.blacklist()
+        except TokenError:
+            raise serializers.ValidationError("Invalid or expired token.")

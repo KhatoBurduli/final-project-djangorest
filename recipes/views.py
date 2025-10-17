@@ -1,10 +1,10 @@
+from .models import Category, Recipe
+from .serializers import CategorySerializer, RecipeSerializer
 from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
 
-from .models import Category, Recipe
-from .serializers import CategorySerializer, RecipeSerializer
 
-# Category CRUD
+# -------- Category CRUD --------
 # List all categories (any logged-in user can see)
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
@@ -40,12 +40,8 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
             raise PermissionDenied("You can only delete categories you created.")
         instance.delete()
 
-# Recipe CRUD
-from rest_framework import generics, permissions
-from rest_framework.exceptions import PermissionDenied
-from .models import Recipe
-from .serializers import RecipeSerializer
 
+# -------- Recipe CRUD --------
 # List all recipes (read-only for logged-in users)
 class RecipeListView(generics.ListAPIView):
     queryset = Recipe.objects.select_related('author').all()
@@ -80,3 +76,12 @@ class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
         if instance.author != self.request.user:
             raise PermissionDenied("You can only delete your own recipes.")
         instance.delete()
+
+
+class RecipesByCategoryView(generics.ListAPIView):
+    serializer_class = RecipeSerializer
+    permission_classes = [permissions.IsAuthenticated]  # only authorized users can view
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        return Recipe.objects.filter(category_id=category_id)

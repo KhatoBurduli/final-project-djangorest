@@ -71,3 +71,26 @@ class UserViewTests(APITestCase):
         response = self.client.post(url, payload, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("detail", response.data)
+
+    def test_logout_view(self):
+        # Create a user
+        user = CustomUser.objects.create_user(username="john", password="StrongPass123!")
+
+        # Obtain access and refresh tokens
+        token_url = reverse("token-obtain-pair")
+        response = self.client.post(token_url, {"username": "john", "password": "StrongPass123!"}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        access = response.data["access"]
+        refresh = response.data["refresh"]
+
+        # Logout (blacklist refresh token)
+        logout_url = reverse("logout")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
+        response = self.client.post(logout_url, {"refresh": refresh}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # Try to refresh access token using blacklisted refresh
+        refresh_url = reverse("token-refresh")
+        response = self.client.post(refresh_url, {"refresh": refresh}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+

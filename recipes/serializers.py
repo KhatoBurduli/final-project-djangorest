@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Category, Recipe
 
+
 class CategorySerializer(serializers.ModelSerializer):
     author_username = serializers.ReadOnlyField(source='author.username')  # show username instead of ID
 

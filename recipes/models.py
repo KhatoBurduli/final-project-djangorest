@@ -1,5 +1,6 @@
 from django.db import models
-from user.models import CustomUser  # link to our custom user model
+from user.models import CustomUser
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)

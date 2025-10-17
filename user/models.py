@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
-from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
+import uuid
+from django.db import models
+from django.utils import timezone
+from datetime import timedelta
 
 
 class CustomUser(AbstractUser):
@@ -26,12 +29,6 @@ class CustomUser(AbstractUser):
         return self.username
 
 
-import uuid
-from django.db import models
-from django.utils import timezone
-from datetime import timedelta
-from .models import CustomUser
-
 class PasswordRecoveryToken(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recovery_tokens')
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -49,12 +46,6 @@ class PasswordRecoveryToken(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.token}"
 
-
-# user/models.py
-import uuid
-from django.db import models
-from django.utils import timezone
-from datetime import timedelta
 
 class EmailVerificationToken(models.Model):
     user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='email_tokens')
