@@ -94,7 +94,7 @@ POST /api/login/ with username and password as JSON:
 }
 ```
 
-## Refresh Token
+### Refresh Token
 POST /api/token/refresh/ with refresh token → get new access token
 
 ### Password Recovery  
@@ -108,7 +108,7 @@ POST /api/recovery-question/ with username → get recovery_question and token
 POST /api/reset-password/ with token, recovery_answer, new_password, confirm_password → reset password
 ```json
 {
-    "token": <token>,
+    "token": "<token>",
     "recovery_answer": "Blue",
     "new_password": "newpass123",
     "confirm_password": "newpass123"
