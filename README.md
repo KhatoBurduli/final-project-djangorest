@@ -182,5 +182,19 @@ docker run -p 8000:8000 recipe-app
 ## Postman
 A Postman collection is included in the **`/postman`** folder to make it easy to test the API endpoints. Import it in Postman and only create environment variables base_url and access_token. All the necessary requests are already included.
 
+## Screenshots 
+Below are the screenshots proving that email verification works successfully:  
+1. Registering the user:
+![Registering](screenshots/registering.png)
+2. Trying to log in without verifying the email:
+![Trying to login without verifying email](screenshots/try-login-without-verif.png)
+3. Received email with verification link:
+![Received verification link](screenshots/received-verif-link.png)
+4. Clicking the link and verifying email:
+![Verifying email](screenshots/email-verified.png)
+5. Successfully logging in after email verification:
+![Successfully logging in](screenshots/login.png)
+
+
 ## Notes
 Media files and the SQLite database are excluded from GitHub.
