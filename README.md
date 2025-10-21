@@ -179,5 +179,8 @@ docker build -t recipe-app .
 docker run -p 8000:8000 recipe-app
 ```
 
+## Postman
+A Postman collection is included in the **`/postman`** folder to make it easy to test the API endpoints. Import it in Postman and only create environment variables base_url and access_token. All the necessary requests are already included.
+
 ## Notes
 Media files and the SQLite database are excluded from GitHub.

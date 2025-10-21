@@ -1,0 +1,614 @@
+{
+	"info": {
+		"_postman_id": "ba1f3787-9f39-45bb-b297-c4f24cb41a3d",
+		"name": "Recipes App Final Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39173674"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "alice",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "alice@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Alice123!",
+							"type": "text"
+						},
+						{
+							"key": "password2",
+							"value": "Alice123!",
+							"type": "text"
+						},
+						{
+							"key": "recovery_question",
+							"value": "Favorite color?",
+							"type": "text"
+						},
+						{
+							"key": "recovery_answer",
+							"value": "Green",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "profile_pic",
+							"type": "file",
+							"src": "postman-cloud:///1f0ae5c5-2646-41e0-8d09-ba2b208d541e"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}register/",
+					"host": [
+						"{{base_url}}register"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Email",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"alice\",\r\n  \"password\": \"Alice123!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}login/",
+					"host": [
+						"{{base_url}}login"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}token/refresh/",
+					"host": [
+						"{{base_url}}token"
+					],
+					"path": [
+						"refresh",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get/Update/Delete User Info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "aliceeeeeeeee",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "alice@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Alice123!",
+							"type": "text"
+						},
+						{
+							"key": "password2",
+							"value": "Alice123!",
+							"type": "text"
+						},
+						{
+							"key": "recovery_question",
+							"value": "Favorite color?",
+							"type": "text"
+						},
+						{
+							"key": "recovery_answer",
+							"value": "Green",
+							"type": "text"
+						},
+						{
+							"key": "profile_pic",
+							"type": "file",
+							"src": "/D:/UserProfile/Desktop/alice.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}me/",
+					"host": [
+						"{{base_url}}me"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create/List My Recipe Categories",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Asian\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}categories/my/",
+					"host": [
+						"{{base_url}}categories"
+					],
+					"path": [
+						"my",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update/Delete My Recipe Category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Asian food\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}categories/9/",
+					"host": [
+						"{{base_url}}categories"
+					],
+					"path": [
+						"9",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All Recipe Categories",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}categories",
+					"host": [
+						"{{base_url}}categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create/List My Recipes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Ramen",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Delicious noodle soup",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "9",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1f0ae5c3-5c08-48c0-87ae-ec28b4ebc303"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}recipes/my/",
+					"host": [
+						"{{base_url}}recipes"
+					],
+					"path": [
+						"my",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update/Delete My Recipe",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Ramennnnnn",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Delicious noodle soup",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "9",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1f0ae5c3-5c08-48c0-87ae-ec28b4ebc303"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}recipes/7/",
+					"host": [
+						"{{base_url}}recipes"
+					],
+					"path": [
+						"7",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All Recipes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}recipes/",
+					"host": [
+						"{{base_url}}recipes"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categorized Recipes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}recipes/category/9/",
+					"host": [
+						"{{base_url}}recipes"
+					],
+					"path": [
+						"category",
+						"9",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recovery Question",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"alice\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}recovery-question/",
+					"host": [
+						"{{base_url}}recovery-question"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"<token>\",\r\n    \"recovery_answer\": \"Green\",\r\n    \"new_password\": \"newpass123\",\r\n    \"confirm_password\": \"newpass123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}reset-password/",
+					"host": [
+						"{{base_url}}reset-password"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2MDczOTU0NiwiaWF0IjoxNzYwNjUzMTQ2LCJqdGkiOiI2ZDcyYTZlZTQwYjY0MTg4ODI5YmM3NjY1ZjQzY2I3YiIsInVzZXJfaWQiOiIxNCJ9.hOdqqiP2NA8S5p5pdn1veTEcJlmzGXPlxS5BUCL0DLU\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}logout/",
+					"host": [
+						"{{base_url}}logout"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		}
+	]
+}
